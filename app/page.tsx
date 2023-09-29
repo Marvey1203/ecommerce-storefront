@@ -35,9 +35,8 @@ export default async function Home() {
     <div className="grid grid-cols-3 gap-5">
       {
       productData.map((products: Product)=> {
-        const shopifyProductId = products.node.id?.split('/').pop();
         return(
-          <Link href={'/shop/'+ products.node.handle + '/' + shopifyProductId} key={products.node.id} className="flex flex-col gap-3 shadow-2xl bg-gray-300">
+          <Link href={'/shop/'+ products.node.handle} key={products.node.id} className="flex flex-col gap-3 shadow-2xl bg-gray-300">
             <Image
             src={products.node.featuredImage.url}
             alt=""

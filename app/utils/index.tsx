@@ -48,7 +48,16 @@ export async function shopifyFetch({ query, variables }: { query: string; variab
       query: `{
         productByHandle(handle: "${handle}") {
           id
-        }  
+          title
+          description
+          images(first:3){
+            nodes{
+              altText
+              id
+              url
+            }
+          }
+        }
       }
       
       `
