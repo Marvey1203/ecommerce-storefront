@@ -32,7 +32,7 @@ export default async function Home() {
   const res = await getAllProducts()
   const productData :ProductData = res.body.data.products.edges
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-5">
       {
       productData.map((products: Product)=> {
         return(
