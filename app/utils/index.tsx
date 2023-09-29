@@ -50,6 +50,12 @@ export async function shopifyFetch({ query, variables }: { query: string; variab
           id
           title
           description
+          priceRange{
+            maxVariantPrice{
+              amount
+              currencyCode
+            }
+          }
           images(first:3){
             nodes{
               altText

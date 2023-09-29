@@ -1,5 +1,5 @@
 import  getOneProduct  from "@/app/utils";
-import Image from "next/image";
+import Slider from "@/app/components/slider";
 interface images {
   altText: string;
   id: string;
@@ -9,6 +9,12 @@ interface singleProduct {
   id: string;
   title: string;
   description: string;
+  priceRange:{
+    maxVariantPrice:{
+      amount: string;
+      currencyCode: string;
+    }
+  }
   images:{
     nodes: images[]
   }
@@ -21,25 +27,19 @@ interface ProductPageProps {
 export default async function ProductPage({params}: {params: ProductPageProps}) {
   const res = await getOneProduct(params.slug)
   const data: singleProduct = res.body.data.productByHandle
+  const image: images[] = data.images.nodes
   return (
-    <div>
-      <h1>{data.title}</h1>
-      <p>{data.id}</p>
-      <p>{data.description}</p>
-      {data.images.nodes.map((imageData)=>{
-        return(
-          <div key={imageData.id}>
-            <Image
-            src={imageData.url}
-            alt=''
-            height={500}
-            width={500}
+    <div className="w-full grid grid-cols-2 gap-8">
+      <div className="w-50%">
+        <Slider image={image}/>
+      </div>
+      <div className="w-50% flex flex-col gap-5">
+        <h3 className="font-bold text-lg text0black">{data.title}</h3>
+        <p>{data.description}</p>
+        <p>{data.priceRange.maxVariantPrice.currencyCode} {data.priceRange.maxVariantPrice.amount}</p>
+      </div>
+      
 
-            />
-          </div>
-        )
-      })}
-      <p>Slug: {params.slug}</p>
     </div>
   );
 }
