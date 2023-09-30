@@ -1,6 +1,5 @@
 import  getOneProduct  from "@/app/utils";
 import Slider from "@/app/components/slider";
-import styled from 'styled-jsx/style';
 
 interface images {
   altText: string;
