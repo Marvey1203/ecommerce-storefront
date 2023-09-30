@@ -1,8 +1,8 @@
 import getOneProducts, { getAllProducts } from "@/app/utils";
 import Slider from "@/app/components/slider";
 import { ParsedUrlQuery } from "querystring";
-import { Product, ProductData } from "@/app/page";
-import { ReactNode } from "react";
+import { Product} from "@/app/page";
+;
 
 
 interface images {
@@ -37,11 +37,20 @@ interface StaticParams {
     slug: string;
   };
 }
+interface ProductDataTwo {
+  map(arg0: (product: any) => { slug: any; }): unknown;
+  body: {
+    data: {
+      products: {
+        edges: Product[];
+      };
+    };
+  };
+}
 export async function generateStaticParams(): Promise<any[]> {
     const res = await getAllProducts();
-    const data: ProductData = res.body.data.products.edges;
-    console.log(data); // Log the data to check its structure
-    const arr = data.map((product) => {
+    const data: ProductDataTwo = res.body.data.products.edges;
+    const arr: { slug: string }[] = data.map((product: Product) => {
       return { slug: product.node.handle };
     });
     return arr

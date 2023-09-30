@@ -15,7 +15,7 @@ export interface Product {
 
 }
 
-export interface ProductData {
+ interface ProductData {
   map(arg0: (products: Product) => import("react").JSX.Element): import("react").ReactNode;
   body: {
     data: {
