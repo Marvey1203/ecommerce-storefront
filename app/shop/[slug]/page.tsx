@@ -2,6 +2,7 @@ import getOneProducts, { getAllProducts } from "@/app/utils";
 import Slider from "@/app/components/slider";
 import { ParsedUrlQuery } from "querystring";
 import { Product, ProductData } from "@/app/page";
+import { ReactNode } from "react";
 
 interface images {
   altText: string;
@@ -38,7 +39,7 @@ interface StaticParams {
 export async function generateStaticParams(): Promise<{ params: params }[]> {
   const res = await getAllProducts()
   const data:ProductData = res.body.data.products.edges
-  const staticParams: StaticParams[] = data.map((product: Product) => {
+  const staticParams: ReactNode = data.map((product: Product) => {
     return {
       params: {
         slug: product.node.handle,
