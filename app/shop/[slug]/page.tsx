@@ -1,8 +1,9 @@
 import  getOneProduct, { getAllProducts }  from "@/app/utils";
 import Slider from "@/app/components/slider";
-import { ProductData, Product } from "@/app/page";
+import { ProductData } from "@/app/page";
 import { GetStaticPathsResult } from 'next';
 import { ParsedUrlQuery } from "querystring";
+
 
 interface images {
   altText: string;
@@ -27,23 +28,13 @@ interface ProductPageProps extends ParsedUrlQuery {
   slug: string;
 
 }
-interface ProductUsed {
-  node:{
-    id: string;
-    title: string;
-    description: string;
-    featuredImage:{
-      url: string;
-    }
-    handle: string;
-  }
-}
+
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult<ProductPageProps>> {
   const res = await getAllProducts();
   const productData: ProductData = res.body.data.products.edges;
   
-  const paths = productData.map((products: ProductUsed) => {
+  const paths = productData.map((products: any) => {
     return {
       params: { slug: products.node.handle},
     };
