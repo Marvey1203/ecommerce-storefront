@@ -37,11 +37,11 @@ interface StaticParams {
     slug: string;
   };
 }
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<any[]> {
     const res = await getAllProducts();
     const data: ProductData = res.body.data.products.edges;
     console.log(data); // Log the data to check its structure
-    const arr: ReactNode = data.map((product: Product) => {
+    const arr: Promise<any[]> = data.map((product: Product) => {
       return { slug: product.node.handle };
     });
     return arr
