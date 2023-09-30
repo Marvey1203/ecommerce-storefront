@@ -36,20 +36,18 @@ interface StaticParams {
     slug: string;
   };
 }
-export async function generateStaticParams(): Promise<{ params: params }[]> {
-  const res = await getAllProducts()
-  const data:ProductData = res.body.data.products.edges
-  const staticParams: ReactNode = data.map((product: Product) => {
-    return {
-      params: {
-        slug: product.node.handle,
-      },
-    };
-  });
-  return staticParams
+export async function generateStaticParams(): Promise<StaticParams[]> {
+  const res = await getAllProducts();
+  const data: ProductData = res.body.data.products.edges;
+  const staticParams: StaticParams[] = data.map((product: Product) => ({
+    params: {
+      slug: product.node.handle,
+    },
+  }));
+  return staticParams;
 }
 
-export default async function ProductPage({params}:StaticParams) {
+export default async function ProductPage({params}: { params: { slug: string } }) {
   const res = await getOneProducts(params.slug)
   const data: singleProduct = res.body.data.productByHandle
   const image: images[] = data.images.nodes
