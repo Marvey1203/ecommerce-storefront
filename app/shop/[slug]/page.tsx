@@ -38,6 +38,7 @@ interface StaticParams {
   };
 }
 interface ProductDataTwo {
+  edges: any;
   map(arg0: (product: any) => { slug: any; }): unknown;
   body: {
     data: {
@@ -49,12 +50,17 @@ interface ProductDataTwo {
 }
 export async function generateStaticParams(): Promise<any[]> {
     const res = await getAllProducts();
-    const data: ProductDataTwo = res.body.data.products.edges;
-    const arr: { slug: string }[] = data.map((product: Product) => {
-      return { slug: product.node.handle };
-    });
-    return arr
-}
+    const data: ProductDataTwo = res.body.data.products;
+    if (data && data.edges) {
+      const arr: { slug: string }[] = data.edges.map((product: Product) => {
+        return { slug: product.node.handle };
+      });
+      return arr;
+    } else {
+      // Handle the case when the response structure is not as expected
+      throw new Error("Invalid response structure");
+    }
+  }
 
 export default async function ProductPage({params}: { params: { slug: string } }) {
   const res = await getOneProducts(params.slug)
