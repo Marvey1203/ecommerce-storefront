@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from "querystring";
 import { Product, ProductData } from "@/app/page";
 import { ReactNode } from "react";
 
+
 interface images {
   altText: string;
   id: string;
@@ -36,15 +37,14 @@ interface StaticParams {
     slug: string;
   };
 }
-export async function generateStaticParams(): Promise<StaticParams[]> {
-  const res = await getAllProducts();
-  const data: ProductData = res.body.data.products.edges;
-  const staticParams: StaticParams[] = data.map((product: Product) => ({
-    params: {
-      slug: product.node.handle,
-    },
-  }));
-  return staticParams;
+export async function generateStaticParams() {
+    const res = await getAllProducts();
+    const data: ProductData = res.body.data.products.edges;
+    console.log(data); // Log the data to check its structure
+    const arr: ReactNode = data.map((product: Product) => {
+      return { slug: product.node.handle };
+    });
+    return arr
 }
 
 export default async function ProductPage({params}: { params: { slug: string } }) {
