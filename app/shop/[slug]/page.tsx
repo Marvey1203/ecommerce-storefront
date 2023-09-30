@@ -1,53 +1,45 @@
-import  getOneProduct, { getAllProducts }  from "@/app/utils";
+import getOneProducts, { getAllProducts } from "@/app/utils";
 import Slider from "@/app/components/slider";
-import { ProductData } from "@/app/page";
-import { GetStaticPathsResult } from 'next';
 import { ParsedUrlQuery } from "querystring";
-
+import { Product, ProductData } from "@/app/page";
 
 interface images {
   altText: string;
   id: string;
   url: string;
 }
+
 interface singleProduct {
   id: string;
   title: string;
   description: string;
-  priceRange:{
-    maxVariantPrice:{
+  priceRange: {
+    maxVariantPrice: {
       amount: string;
       currencyCode: string;
     }
-  }
-  images:{
-    nodes: images[]
-  }
+  };
+  images: {
+    nodes: images[];
+  };
 }
+
 interface ProductPageProps extends ParsedUrlQuery {
   slug: string;
-
 }
 
-
-export async function getStaticPaths(): Promise<GetStaticPathsResult<ProductPageProps>> {
-  const res = await getAllProducts();
-  const productData: ProductData = res.body.data.products.edges;
-  
-  const paths = productData.map((products: any) => {
-    return {
-      params: { slug: products.node.handle},
-    };
-  });
-
-  return {
-    paths,
-    fallback: false,
-  };
- 
+export async function generateStaticParams(): Promise<{ params: { slug: string } }[]> {
+  const products = await getAllProducts();
+  const data: ProductData = products.body.data.products.edges;
+  return data.map((product: any) => ({
+    params: {
+      slug: product.node.handle,
+    },
+  }));
 }
+
 export default async function ProductPage({params}: {params: ProductPageProps}) {
-  const res = await getOneProduct(params.slug)
+  const res = await getOneProducts(params.slug)
   const data: singleProduct = res.body.data.productByHandle
   const image: images[] = data.images.nodes
   return (
