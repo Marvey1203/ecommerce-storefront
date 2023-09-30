@@ -27,17 +27,28 @@ interface singleProduct {
 interface ProductPageProps extends ParsedUrlQuery {
   slug: string;
 }
-
-export async function generateStaticParams(): Promise<{ params: { slug: string } }[]> {
-  const res = await fetch('https://localhost:3000/shop')
-  const data = await res.json()
-  return data.map((product: Product) => ({
-      slug: product.node.handle,
-
-  }));
+type params = {
+   slug: string;
+}
+interface StaticParams {
+  params: {
+    slug: string;
+  };
+}
+export async function generateStaticParams(): Promise<{ params: params }[]> {
+  const res = await getAllProducts()
+  const data:ProductData = res.body.data.products.edges
+  const staticParams: StaticParams[] = data.map((product: Product) => {
+    return {
+      params: {
+        slug: product.node.handle,
+      },
+    };
+  });
+  return staticParams
 }
 
-export default async function ProductPage({params}: {params: ProductPageProps}) {
+export default async function ProductPage({params}:StaticParams) {
   const res = await getOneProducts(params.slug)
   const data: singleProduct = res.body.data.productByHandle
   const image: images[] = data.images.nodes
