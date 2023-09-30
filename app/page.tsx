@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { getAllProducts } from "./utils"
 import Link from "next/link";
-interface Product {
+export interface Product {
   node:{
     id: string;
     title: string;
@@ -15,7 +15,7 @@ interface Product {
 
 }
 
-interface ProductData {
+export interface ProductData {
   map(arg0: (products: Product) => import("react").JSX.Element): import("react").ReactNode;
   body: {
     data: {
