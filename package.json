@@ -12,6 +12,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "styled-jsx": "^5.1.2",
     "swiper": "^10.3.1"
   },
   "devDependencies": {
