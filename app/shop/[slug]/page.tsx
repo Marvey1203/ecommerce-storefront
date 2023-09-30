@@ -29,12 +29,11 @@ interface ProductPageProps extends ParsedUrlQuery {
 }
 
 export async function generateStaticParams(): Promise<{ params: { slug: string } }[]> {
-  const products = await getAllProducts();
-  const data: Product[] = products.body.data.products.edges;
+  const res = await fetch('https://localhost:3000/shop')
+  const data = await res.json()
   return data.map((product: Product) => ({
-    params: {
       slug: product.node.handle,
-    },
+
   }));
 }
 
