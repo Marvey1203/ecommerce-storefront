@@ -30,8 +30,8 @@ interface ProductPageProps extends ParsedUrlQuery {
 
 export async function generateStaticParams(): Promise<{ params: { slug: string } }[]> {
   const products = await getAllProducts();
-  const data: ProductData = products.body.data.products.edges;
-  return data.map((product: any) => ({
+  const data: Product[] = products.body.data.products.edges;
+  return data.map((product: Product) => ({
     params: {
       slug: product.node.handle,
     },
