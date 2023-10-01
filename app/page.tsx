@@ -1,6 +1,8 @@
+
 import Image from "next/image"
-import { getAllProducts } from "./utils"
+import  { getAllProducts } from "./utils"
 import Link from "next/link";
+import Cart from "./components/Cart";
 export interface Product {
   node:{
     id: string;
@@ -28,11 +30,12 @@ export interface Product {
 
 
 
-export default async function Home() {
+export default async function Home() {  
   const res = await getAllProducts()
   const productData :ProductData = res.body.data.products.edges
   return (
     <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-5">
+      <Cart/>
       {
       productData.map((products: Product)=> {
         return(

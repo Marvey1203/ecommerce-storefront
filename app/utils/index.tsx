@@ -43,6 +43,22 @@ export async function shopifyFetch({ query, variables }: { query: string; variab
         }`
     });
   }
+
+  export async function cartCreate() {
+        return await shopifyFetch({
+            query: `
+            mutation createCart($cartInput: CartInput) {
+              cartCreate(input: $cartInput) {
+                cart {
+                  id
+                }
+              }
+            }
+            `
+        });
+
+}
+
   export default async function getOneProducts(handle:string) {
     return shopifyFetch({
       query: `{
