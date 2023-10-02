@@ -35,7 +35,6 @@ export default async function Home() {
   const productData :ProductData = res.body.data.products.edges
   return (
     <div className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-5">
-      <Cart/>
       {
       productData.map((products: Product)=> {
         return(
