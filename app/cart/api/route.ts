@@ -1,11 +1,10 @@
-
-export async function POST(cartInput: { /* your CartInput type here */ }) {
+export async function POST() {
   const endpoint = process.env.SHOPIFY_STORE_DOMAIN!;
   const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
   
   const query = `
-    mutation createCart($cartInput: CartInput) {
-      cartCreate(input: $cartInput) {
+    mutation {
+      cartCreate(input: {}) {
         cart {
           id
         }
@@ -20,18 +19,13 @@ export async function POST(cartInput: { /* your CartInput type here */ }) {
         'Content-Type': 'application/json',
         'X-Shopify-Storefront-Access-Token': key
       },
-      body: JSON.stringify({
-        query,
-        variables: {
-          cartInput: cartInput
-        }
-      })
+      body: JSON.stringify({ query })
     });
 
     const data = await result.json();
 
     return new Response(JSON.stringify({ data }), {
-      status: result.status, // Pass the status from the Shopify response to the Response object
+      status: result.status,
       headers: {
         'Content-Type': 'application/json'
       }
