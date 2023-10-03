@@ -3,13 +3,19 @@ export async function POST() {
   const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
   
   const query = `
-    mutation {
-      cartCreate(input: {}) {
-        cart {
-          id
+  mutation {
+    cartCreate(input: {}) {
+      cart {
+        id
+        checkoutUrl
+        cost{
+          checkoutChargeAmount{
+            amount
+          }
         }
       }
     }
+  }
   `;
 
   try {
